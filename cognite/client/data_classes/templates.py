@@ -61,9 +61,9 @@ class TemplateGroup(TemplateGroupCore):
         description (str | None): The description of the template groups.
         owners (list[str] | None): The list of owners for the template groups.
         data_set_id (int | None): The dataSet which this Template Group belongs to
-        created_time (int | None): No description.
-        last_updated_time (int | None): No description.
-        cognite_client (CogniteClient | None): No description.
+        created_time (int | None): The creation time of the resource, in milliseconds since January 1, 1970 at 00:00 UTC.
+        last_updated_time (int | None): The last time the resource was updated, in milliseconds since January 1, 1970 at 00:00 UTC.
+        cognite_client (CogniteClient | None): The client to associate with this object.
     """
 
     def __init__(
@@ -143,9 +143,9 @@ class TemplateGroupVersion(CogniteResource):
         schema (str | None): The GraphQL schema.
         version (int | None): Incremented by the server whenever the schema of a template groups changes.
         conflict_mode (str | None): Can be set to 'Patch', 'Update' or 'Force'.
-        created_time (int | None): No description.
-        last_updated_time (int | None): No description.
-        cognite_client (CogniteClient | None): No description.
+        created_time (int | None): The creation time of the resource, in milliseconds since January 1, 1970 at 00:00 UTC.
+        last_updated_time (int | None): The last time the resource was updated, in milliseconds since January 1, 1970 at 00:00 UTC.
+        cognite_client (CogniteClient | None): The client to associate with this object.
     """
 
     def __init__(
@@ -174,7 +174,7 @@ class ConstantResolver(CogniteResource):
 
     Args:
         value (Any | None): The value of the field.
-        cognite_client (CogniteClient | None): No description.
+        cognite_client (CogniteClient | None): The client to associate with this object.
     """
 
     def __init__(self, value: Any | None = None, cognite_client: CogniteClient | None = None) -> None:
@@ -191,7 +191,7 @@ class RawResolver(CogniteResource):
         table_name (str | None): The table name.
         row_key (str | None): The row key.
         column_name (str | None): The column to fetch the value from.
-        cognite_client (CogniteClient | None): No description.
+        cognite_client (CogniteClient | None): The client to associate with this object.
     """
 
     def __init__(
@@ -221,7 +221,7 @@ class SyntheticTimeSeriesResolver(CogniteResource):
         is_step (bool | None): Specifies if the synthetic time series is step based.
         is_string (bool | None): Specifies if the synthetic time series returned contains string values.
         unit (str | None): The unit of the time series.
-        cognite_client (CogniteClient | None): No description.
+        cognite_client (CogniteClient | None): The client to associate with this object.
     """
 
     def __init__(
@@ -252,7 +252,7 @@ class ViewResolver(CogniteResource):
     Args:
         external_id (str | None): The external id of the view.
         input (dict[str, Any] | None): The input used to resolve the view.
-        cognite_client (CogniteClient | None): No description.
+        cognite_client (CogniteClient | None): The client to associate with this object.
     """
 
     def __init__(
@@ -345,7 +345,7 @@ class TemplateInstance(TemplateInstanceCore):
         data_set_id (int | None): The id of the dataset this instance belongs to.
         created_time (int | None): The number of milliseconds since 00:00:00 Thursday, 1 January 1970, Coordinated Universal Time (UTC), minus leap seconds.
         last_updated_time (int | None): The number of milliseconds since 00:00:00 Thursday, 1 January 1970, Coordinated Universal Time (UTC), minus leap seconds.
-        cognite_client (CogniteClient | None): No description.
+        cognite_client (CogniteClient | None): The client to associate with this object.
     """
 
     def __init__(
@@ -465,7 +465,7 @@ class Source(CogniteResource):
         type (str | None): The type of source. Possible values are: "events", "assets", "sequences", "timeSeries", "files".
         filter (dict[str, Any] | None): The filter to apply to the source when resolving the source. A filter also supports binding view input to the filter, by prefixing the input name with '$'.
         mappings (dict[str, str] | None): The mapping between source result and expected schema.
-        cognite_client (CogniteClient | None): No description.
+        cognite_client (CogniteClient | None): The client to associate with this object.
     """
 
     def __init__(
@@ -535,9 +535,9 @@ class View(ViewCore):
         external_id (str | None): The external ID provided by the client. Must be unique for the resource type.
         source (Source | None): Defines the data source for the view.
         data_set_id (int | None): The dataSetId of the view
-        created_time (int | None): No description.
-        last_updated_time (int | None): No description.
-        cognite_client (CogniteClient | None): No description.
+        created_time (int | None): The creation time of the resource, in milliseconds since January 1, 1970 at 00:00 UTC.
+        last_updated_time (int | None): The last time the resource was updated, in milliseconds since January 1, 1970 at 00:00 UTC.
+        cognite_client (CogniteClient | None): The client to associate with this object.
     """
 
     def __init__(

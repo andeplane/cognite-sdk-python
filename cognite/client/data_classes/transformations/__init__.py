@@ -92,10 +92,10 @@ class TransformationCore(WriteableCogniteResource["TransformationWrite"], ABC):
         ignore_null_fields (bool): Indicates how null values are handled on updates: ignore or set null.
         source_oidc_credentials (OidcCredentials | None): Configure the transformation to authenticate with the given oidc credentials key on the destination.
         destination_oidc_credentials (OidcCredentials | None): Configure the transformation to authenticate with the given oidc credentials on the destination.
-        data_set_id (int | None): No description.
+        data_set_id (int | None): The data set for this transformation.
         source_nonce (NonceCredentials | None): Single use credentials to bind to a CDF session for reading.
         destination_nonce (NonceCredentials | None): Single use credentials to bind to a CDF session for writing.
-        tags (list[str] | None): No description.
+        tags (list[str] | None): A list of tags to associate with the transformation.
     """
 
     def __init__(
@@ -252,14 +252,14 @@ class Transformation(TransformationCore):
         last_finished_job (TransformationJob | None): Details for the last finished job of this transformation.
         blocked (TransformationBlockedInfo | None): Provides reason and time if the transformation is blocked.
         schedule (TransformationSchedule | None): Details for the schedule if the transformation is scheduled.
-        data_set_id (int | None): No description.
+        data_set_id (int | None): The data set for this transformation.
         cognite_client (CogniteClient | None): The client to associate with this object.
         source_nonce (NonceCredentials | None): Single use credentials to bind to a CDF session for reading.
         destination_nonce (NonceCredentials | None): Single use credentials to bind to a CDF session for writing.
         source_session (SessionDetails | None): Details for the session used to read from the source project.
         destination_session (SessionDetails | None): Details for the session used to write to the destination project.
-        tags (list[str] | None): No description.
-        **kwargs (Any): No description.
+        tags (list[str] | None): A list of tags to associate with the transformation.
+        **kwargs (Any): Keyword arguments.
     """
 
     def __init__(
@@ -476,10 +476,10 @@ class TransformationWrite(TransformationCore):
         is_public (bool): Indicates if the transformation is visible to all in project or only to the owner.
         source_oidc_credentials (OidcCredentials | None): Configure the transformation to authenticate with the given oidc credentials key on the destination.
         destination_oidc_credentials (OidcCredentials | None): Configure the transformation to authenticate with the given oidc credentials on the destination.
-        data_set_id (int | None): No description.
+        data_set_id (int | None): The data set for this transformation.
         source_nonce (NonceCredentials | None): Single use credentials to bind to a CDF session for reading.
         destination_nonce (NonceCredentials | None): Single use credentials to bind to a CDF session for writing.
-        tags (list[str] | None): No description.
+        tags (list[str] | None): A list of tags to associate with the transformation.
     """
 
     def __init__(
@@ -703,7 +703,7 @@ class ContainsAny(TagsFilter):
 
 
 class TransformationFilter(CogniteFilter):
-    """No description.
+    """Filter on transformations.
 
     Args:
         include_public (bool): Whether public transformations should be included in the results. The default is true.
@@ -761,7 +761,7 @@ class TransformationPreviewResult(CogniteResource):
     Args:
         schema (TransformationSchemaColumnList | None): List of column descriptions.
         results (list[dict] | None): List of resulting rows. Each row is a dictionary where the key is the column name and the value is the entry.
-        cognite_client (CogniteClient | None): No description.
+        cognite_client (CogniteClient | None): The client to associate with this object.
     """
 
     def __init__(

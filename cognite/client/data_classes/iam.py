@@ -29,7 +29,7 @@ ALL_USER_ACCOUNTS = "allUserAccounts"
 
 
 class GroupCore(WriteableCogniteResource["GroupWrite"], ABC):
-    """No description.
+    """A group is a collection of principals.
 
     Args:
         name (str): Name of the group
@@ -263,11 +263,7 @@ class GroupList(WriteableCogniteResourceList[GroupWrite, Group], NameTransformer
 
 
 class SecurityCategoryCore(WriteableCogniteResource["SecurityCategoryWrite"], ABC):
-    """No description.
-
-    Args:
-        name (str | None): Name of the security category
-    """
+    """Security categories are used to restrict access to resources."""
 
     def __init__(self, name: str | None = None) -> None:
         self.name = name
@@ -443,7 +439,7 @@ class Session(CogniteResource):
         creation_time (int | None): Session creation time, in milliseconds since 1970
         expiration_time (int | None): Session expiry time, in milliseconds since 1970. This value is updated on refreshing a token
         client_id (str | None): Client ID in identity provider. Returned only if the session was created using client credentials
-        cognite_client (CogniteClient | None): No description.
+        cognite_client (CogniteClient | None): The client to associate with this object.
     """
 
     def __init__(
@@ -462,6 +458,7 @@ class Session(CogniteResource):
         self.creation_time = creation_time
         self.expiration_time = expiration_time
         self.client_id = client_id
+        self._cognite_client = cast("CogniteClient", cognite_client)
 
 
 class SessionList(CogniteResourceList[Session], IdTransformerMixin):

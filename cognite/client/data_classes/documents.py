@@ -30,7 +30,7 @@ class DocumentsGeoJsonGeometry(CogniteObject):
     Args:
         type (Literal['Point', 'MultiPoint', 'LineString', 'MultiLineString', 'Polygon', 'MultiPolygon', 'GeometryCollection']): The geometry type.
         coordinates (list | None): An array of the coordinates of the geometry. The structure of the elements in this array is determined by the type of geometry.
-        geometries (Collection[Geometry] | None): No description.
+        geometries (Collection[Geometry] | None): A list of geometries.
 
     Examples:
         Point:
@@ -130,8 +130,8 @@ class SourceFile(CogniteObject):
         dataset_id (int | None): The id if the dataset this file belongs to, if any.
         security_categories (list[int] | None): The security category IDs required to access this file.
         metadata (dict[str, str] | None): Custom, application specific metadata. String key -> String value.
-        cognite_client (CogniteClient | None): No description.
-        **_ (Any): No description.
+        cognite_client (CogniteClient | None): The client to associate with this object.
+        **_ (Any): Keyword arguments.
     """
 
     def __init__(
@@ -220,8 +220,8 @@ class Document(CogniteResource):
         asset_ids (list[int] | None): The ids of any assets referred to in the document.
         labels (list[Label | str | LabelDefinition] | None): The labels attached to the document.
         geo_location (DocumentsGeoJsonGeometry | None): The geolocation of the document.
-        cognite_client (CogniteClient | None): No description.
-        **_ (Any): No description.
+        cognite_client (CogniteClient | None): The client to associate with this object.
+        **_ (Any): Keyword arguments.
     """
 
     def __init__(

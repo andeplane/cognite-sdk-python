@@ -146,7 +146,7 @@ class DataSetFilter(CogniteFilter):
         created_time (dict[str, Any] | TimestampRange | None): Range between two timestamps.
         last_updated_time (dict[str, Any] | TimestampRange | None): Range between two timestamps.
         external_id_prefix (str | None): Filter by this (case-sensitive) prefix for the external ID.
-        write_protected (bool | None): No description.
+        write_protected (bool | None): Filter by write-protected.
     """
 
     def __init__(

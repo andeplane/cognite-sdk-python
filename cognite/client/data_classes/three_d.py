@@ -43,8 +43,8 @@ class BoundingBox3D(CogniteObject):
     """The bounding box of the subtree with this sector as the root sector. Is null if there are no geometries in the subtree.
 
     Args:
-        max (list[float] | None): No description.
-        min (list[float] | None): No description.
+        max (list[float] | None): The maximum x, y, and z coordinates of the bounding box.
+        min (list[float] | None): The minimum x, y, and z coordinates of the bounding box.
         **_ (Any): No description.
     """
 
@@ -158,7 +158,7 @@ class ThreeDModelWrite(ThreeDModelCore):
 
 
 class ThreeDModelUpdate(CogniteUpdate):
-    """No description.
+    """Update for a 3D model.
 
     Args:
         id (int): A server-generated ID for the object.
@@ -231,12 +231,11 @@ class ThreeDModelList(
 
 
 class ThreeDModelRevisionCore(WriteableCogniteResource["ThreeDModelRevisionWrite"], ABC):
-    """No description.
-
+    """This class represents a 3D model revision in Cognite Data Fusion.
     Args:
         file_id (int | None): The file id.
         published (bool | None): True if the revision is marked as published.
-        rotation (list[float] | None): No description.
+        rotation (list[float] | None): The rotation of the model in quaternion format.
         scale (list[float] | None): Scale of 3D model in directions X,Y and Z. Should be uniform.
         translation (list[float] | None): 3D offset of the model.
         camera (RevisionCameraProperties | dict[str, Any] | None): Initial camera position and target.
@@ -283,7 +282,7 @@ class ThreeDModelRevision(ThreeDModelRevisionCore):
         id (int | None): The ID of the revision.
         file_id (int | None): The file id.
         published (bool | None): True if the revision is marked as published.
-        rotation (list[float] | None): No description.
+        rotation (list[float] | None): The rotation of the model in quaternion format.
         scale (list[float] | None): Scale of 3D model in directions X,Y and Z. Should be uniform.
         translation (list[float] | None): 3D offset of the model.
         camera (RevisionCameraProperties | dict[str, Any] | None): Initial camera position and target.
@@ -357,7 +356,7 @@ class ThreeDModelRevisionWrite(ThreeDModelRevisionCore):
     Args:
         file_id (int): The file id to a file uploaded to Cognite's Files API. Can only be set on revision creation, and can never be updated.
         published (bool): True if the revision is marked as published.
-        rotation (list[float] | None): No description.
+        rotation (list[float] | None): The rotation of the model in quaternion format.
         scale (list[float] | None): Scale of 3D model in directions X,Y and Z. Should be uniform.
         translation (list[float] | None): 3D offset of the model.
         camera (RevisionCameraProperties | dict[str, Any] | None): Initial camera position and target.
@@ -402,7 +401,7 @@ class ThreeDModelRevisionWrite(ThreeDModelRevisionCore):
 
 
 class ThreeDModelRevisionUpdate(CogniteUpdate):
-    """No description.
+    """Update for a 3D model revision.
 
     Args:
         id (int): A server-generated ID for the object.
@@ -492,7 +491,7 @@ class ThreeDModelRevisionList(
 
 
 class ThreeDNode(CogniteResource):
-    """No description.
+    """A 3D node in a 3D model hierarchy.
 
     Args:
         id (int | None): The ID of the node.
@@ -547,7 +546,7 @@ class ThreeDNodeList(CogniteResourceList[ThreeDNode], InternalIdTransformerMixin
 
 
 class ThreeDAssetMappingCore(WriteableCogniteResource["ThreeDAssetMappingWrite"], ABC):
-    """No description.
+    """A mapping between a 3D node and an asset.
 
     Args:
         node_id (int | None): The ID of the node.

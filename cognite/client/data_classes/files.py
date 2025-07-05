@@ -31,7 +31,7 @@ if TYPE_CHECKING:
 
 
 class FileMetadataCore(WriteableCogniteResource["FileMetadataWrite"], ABC):
-    """No description.
+    """File metadata.
 
     Args:
         external_id (str | None): The external ID provided by the client. Must be unique for the resource type.
@@ -294,7 +294,7 @@ class FileMetadataWrite(FileMetadataCore):
 
 
 class FileMetadataFilter(CogniteFilter):
-    """No description.
+    """Filter on files.
 
     Args:
         name (str | None): Name of the file.

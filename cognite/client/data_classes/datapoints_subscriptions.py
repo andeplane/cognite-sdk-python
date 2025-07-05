@@ -68,7 +68,7 @@ class DatapointSubscription(DatapointSubscriptionCore):
         last_updated_time (int): Time when the subscription was last updated in CDF in milliseconds since Jan 1, 1970.
         time_series_count (int | None): The number of time series in the subscription. None if no timeseries.
         filter (Filter | None): If present, the subscription is defined by this filter.
-        name (str | None): No description.
+        name (str | None): The name of the subscription.
         description (str | None): A summary explanation for the subscription.
         data_set_id (int | None): The id of the dataset this subscription belongs to.
     """
@@ -128,7 +128,7 @@ class DataPointSubscriptionWrite(DatapointSubscriptionCore):
         time_series_ids (list[ExternalId] | None): List of (external) ids of time series that this subscription will listen to. Not compatible with filter.
         instance_ids(list[NodeId] | None): List of instance ids of time series that this subscription will listen to. Not compatible with filter.
         filter (Filter | None): A filter DSL (Domain Specific Language) to define advanced filter queries. Not compatible with time_series_ids.
-        name (str | None): No description.
+        name (str | None): The name of the subscription.
         description (str | None): A summary explanation for the subscription.
         data_set_id (int | None): The id of the dataset this subscription belongs to.
     """

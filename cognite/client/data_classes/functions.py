@@ -611,7 +611,7 @@ class FunctionCall(CogniteResource):
         status (str | None): Status of the function call ("Running", "Completed" or "Failed").
         schedule_id (int | None): The schedule id belonging to the call.
         error (dict | None): Error from the function call. It contains an error message and the stack trace.
-        function_id (int | None): No description.
+        function_id (int | None): ID of the function.
         cognite_client (CogniteClient | None): An optional CogniteClient to associate with this data class.
     """
 
@@ -693,7 +693,7 @@ class FunctionCallLogEntry(CogniteResource):
     Args:
         timestamp (int | None): The number of milliseconds since 00:00:00 Thursday, 1 January 1970, Coordinated Universal Time (UTC), minus leap seconds.
         message (str | None): Single line from stdout / stderr.
-        cognite_client (CogniteClient | None): No description.
+        cognite_client (CogniteClient | None): The client to associate with this object.
     """
 
     def __init__(

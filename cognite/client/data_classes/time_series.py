@@ -38,23 +38,7 @@ if TYPE_CHECKING:
 
 
 class TimeSeriesCore(WriteableCogniteResource["TimeSeriesWrite"], ABC):
-    """No description.
-
-    Args:
-        external_id (str | None): The externally supplied ID for the time series.
-        instance_id (NodeId | None): The Instance ID for the time series. (Only applicable for time series created in DMS)
-        name (str | None): The display short name of the time series.
-        is_string (bool | None): Whether the time series is string valued or not.
-        metadata (dict[str, str] | None): Custom, application-specific metadata. String key -> String value. Limits: Maximum length of key is 32 bytes, value 512 bytes, up to 16 key-value pairs.
-        unit (str | None): The physical unit of the time series.
-        unit_external_id (str | None): The physical unit of the time series (reference to unit catalog). Only available for numeric time series.
-        asset_id (int | None): Asset ID of equipment linked to this time series.
-        is_step (bool | None): Whether the time series is a step series or not.
-        description (str | None): Description of the time series.
-        security_categories (Sequence[int] | None): The required security categories to access this time series.
-        data_set_id (int | None): The dataSet ID for the item.
-        legacy_name (str | None): This field is not used by the API and will be removed October 2024.
-    """
+    """A time series is a related set of time-stamped data points."""
 
     def __init__(
         self,
@@ -224,7 +208,7 @@ class TimeSeries(TimeSeriesCore):
         """Returns the latest datapoint in this time series. If empty, returns None.
 
         Args:
-            before (int | str | datetime | None): No description.
+            before (int | str | datetime | None): Get the latest datapoint before this time.
         Returns:
             Datapoint | None: A datapoint object containing the value and timestamp of the latest datapoint.
         """
@@ -285,7 +269,7 @@ class TimeSeriesWrite(TimeSeriesCore):
 
 
 class TimeSeriesFilter(CogniteFilter):
-    """No description.
+    """Filter on time series.
 
     Args:
         name (str | None): Filter on name.
@@ -298,7 +282,7 @@ class TimeSeriesFilter(CogniteFilter):
         asset_ids (Sequence[int] | None): Only include time series that reference these specific asset IDs.
         asset_external_ids (SequenceNotStr[str] | None): Asset External IDs of related equipment that this time series relates to.
         asset_subtree_ids (Sequence[dict[str, Any]] | None): Only include time series that are related to an asset in a subtree rooted at any of these asset IDs or external IDs. If the total size of the given subtrees exceeds 100,000 assets, an error will be returned.
-        data_set_ids (Sequence[dict[str, Any]] | None): No description.
+        data_set_ids (Sequence[dict[str, Any]] | None): Return only time series in the specified data sets.
         external_id_prefix (str | None): Filter by this (case-sensitive) prefix for the external ID.
         created_time (dict[str, Any] | TimestampRange | None): Range between two timestamps.
         last_updated_time (dict[str, Any] | TimestampRange | None): Range between two timestamps.

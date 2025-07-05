@@ -24,7 +24,7 @@ class UserProfile(CogniteResource):
         email (str | None): The user's email address (if any). The email address is is returned directly from the identity provider and not guaranteed to be verified. Note that the email is mutable and can be updated in the identity provider. It should not be used to uniquely identify as a user. Use the user_identifier property instead.
         display_name (str | None): The display name for the user.
         job_title (str | None): The user's job title.
-        cognite_client (CogniteClient | None): No description.
+        cognite_client (CogniteClient | None): The client to associate with this object.
     """
 
     def __init__(

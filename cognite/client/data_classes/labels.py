@@ -168,7 +168,7 @@ class Label(CogniteObject):
 
     Args:
         external_id (str | None): The external id to the attached label.
-        **_ (Any): No description.
+        **_ (Any): Keyword arguments.
     """
 
     def __init__(self, external_id: str | None = None, **_: Any) -> None:
