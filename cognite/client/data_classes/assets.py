@@ -21,6 +21,7 @@ from typing import (
     TypeAlias,
     TypeVar,
     cast,
+    Self,
 )
 
 from cognite.client.data_classes._base import (
@@ -125,7 +126,7 @@ class AssetCore(WriteableCogniteResource["AssetWrite"], ABC):
         self.geo_location = geo_location
 
     @classmethod
-    def _load(cls: type[T_Asset], resource: dict, cognite_client: CogniteClient | None = None) -> T_Asset:
+    def _load(cls: type[Self], resource: dict, cognite_client: CogniteClient | None = None) -> Self:
         instance = super()._load(resource, cognite_client)
         instance.labels = Label._load_list(instance.labels)
         if isinstance(instance.geo_location, dict):
@@ -139,9 +140,6 @@ class AssetCore(WriteableCogniteResource["AssetWrite"], ABC):
         if self.geo_location is not None:
             result["geoLocation" if camel_case else "geo_location"] = self.geo_location.dump(camel_case)
         return result
-
-
-T_Asset = TypeVar("T_Asset", bound=AssetCore)
 
 
 class Asset(AssetCore):

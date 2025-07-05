@@ -161,22 +161,19 @@ class ContextualizationJob(CogniteResource):
 
     @classmethod
     def _load_with_status(
-        cls: type[T_ContextualizationJob],
+        cls: type[Self],
         *,
         data: dict[str, Any],
         headers: CaseInsensitiveDict[str],
         status_path: str,
         cognite_client: Any,
-    ) -> T_ContextualizationJob:
+    ) -> Self:
         obj = cls._load({**data, "jobToken": headers.get("X-Job-Token")}, cognite_client=cognite_client)
         obj._status_path = status_path
         # '_load' does not see properties (real attribute stored under a different name, e.g. '_items' not 'items'):
         if "items" in data and hasattr(obj, "items"):
             obj.items = data["items"]
         return obj
-
-
-T_ContextualizationJob = TypeVar("T_ContextualizationJob", bound=ContextualizationJob)
 
 
 class ContextualizationJobList(CogniteResourceList[ContextualizationJob]):

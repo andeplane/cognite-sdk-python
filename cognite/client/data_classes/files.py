@@ -3,7 +3,8 @@ from __future__ import annotations
 from abc import ABC
 from collections.abc import Sequence
 from types import TracebackType
-from typing import TYPE_CHECKING, Any, BinaryIO, Literal, TextIO, TypeVar, cast
+from typing import TYPE_CHECKING, Any, BinaryIO, Literal, TextIO, cast
+from typing_extensions import Self
 
 from cognite.client.data_classes._base import (
     CogniteFilter,
@@ -88,7 +89,7 @@ class FileMetadataCore(WriteableCogniteResource["FileMetadataWrite"], ABC):
         self.security_categories = security_categories
 
     @classmethod
-    def _load(cls: type[T_FileMetadata], resource: dict, cognite_client: CogniteClient | None = None) -> T_FileMetadata:
+    def _load(cls: type[Self], resource: dict, cognite_client: CogniteClient | None = None) -> Self:
         instance = super()._load(resource, cognite_client)
         instance.labels = Label._load_list(instance.labels)
         if isinstance(instance.geo_location, dict):
@@ -108,9 +109,6 @@ class FileMetadataCore(WriteableCogniteResource["FileMetadataWrite"], ABC):
                 camel_case=camel_case, include_instance_type=False
             )
         return result
-
-
-T_FileMetadata = TypeVar("T_FileMetadata", bound=FileMetadataCore)
 
 
 class FileMetadata(FileMetadataCore):

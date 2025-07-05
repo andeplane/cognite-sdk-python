@@ -705,9 +705,6 @@ class ConnectionDefinitionApply(ViewPropertyApply, ABC):
         raise NotImplementedError
 
 
-T_ConnectionDefinitionApply = TypeVar("T_ConnectionDefinitionApply", bound=ConnectionDefinitionApply)
-
-
 @dataclass
 class EdgeConnectionApply(ConnectionDefinitionApply, ABC):
     """Describes the edge(s) that are likely to exist to aid in discovery and documentation of the view.

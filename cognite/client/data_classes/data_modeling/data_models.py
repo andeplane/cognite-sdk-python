@@ -69,7 +69,7 @@ class DataModelApply(DataModelCore):
         views: Sequence[ViewId | ViewApply] | None = None,
     ) -> None:
         validate_data_modeling_identifier(space, external_id)
-        super().__init__(space, external_id, version, description, name)
+        super().__init__(space, external_id, name, description)
         self.views = views
 
     @classmethod
@@ -118,7 +118,7 @@ class DataModel(DataModelCore, Generic[T_View]):
         created_time (int): The number of milliseconds since 00:00:00 Thursday, 1 January 1970, Coordinated Universal Time (UTC), minus leap seconds.
         description (str | None): Textual description of the data model
         name (str | None): Human readable name for the data model.
-        views (list[T_View] | None): List of views included in this data model.
+        views (list[ViewId | View] | None): List of views included in this data model.
     """
 
     def __init__(

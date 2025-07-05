@@ -1288,7 +1288,7 @@ class EdgeList(DataModelingInstancesList[EdgeApply, T_Edge]):
         return output
 
 
-class EdgeListWithCursor(EdgeList):
+class EdgeListWithCursor(EdgeList[T_Edge]):
     def __init__(
         self,
         resources: Collection[Any],

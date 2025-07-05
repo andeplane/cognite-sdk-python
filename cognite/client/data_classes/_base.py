@@ -77,14 +77,11 @@ class CogniteResponse:
         return basic_instance_dump(self, camel_case=camel_case)
 
     @classmethod
-    def load(cls, api_response: dict[str, Any]) -> CogniteResponse:
+    def load(cls, api_response: dict[str, Any]) -> Self:
         raise NotImplementedError
 
     def to_pandas(self) -> pandas.DataFrame:
         raise NotImplementedError
-
-
-T_CogniteResponse = TypeVar("T_CogniteResponse", bound=CogniteResponse)
 
 
 class _WithClientMixin:
@@ -185,9 +182,6 @@ class UnknownCogniteObject(CogniteObject):
         return convert_all_keys_recursive(self.__data, camel_case=camel_case)
 
 
-T_CogniteObject = TypeVar("T_CogniteObject", bound=CogniteObject)
-
-
 class CogniteResource(CogniteObject, _WithClientMixin, ABC):
     """
     A CogniteResource represent a resource in the Cognite API, meaning that there should be a set of
@@ -282,14 +276,12 @@ class CogniteResourceList(UserList, Generic[T_CogniteResource], _WithClientMixin
         return super().__iter__()
 
     @overload
-    def __getitem__(self: T_CogniteResourceList, item: SupportsIndex) -> T_CogniteResource: ...
+    def __getitem__(self, item: SupportsIndex) -> T_CogniteResource: ...
 
     @overload
-    def __getitem__(self: T_CogniteResourceList, item: slice) -> T_CogniteResourceList: ...
+    def __getitem__(self, item: slice) -> Self: ...
 
-    def __getitem__(
-        self: T_CogniteResourceList, item: SupportsIndex | slice
-    ) -> T_CogniteResource | T_CogniteResourceList:
+    def __getitem__(self, item: SupportsIndex | slice) -> T_CogniteResource | Self:
         value = self.data[item]
         if isinstance(item, slice):
             return type(self)(value, cognite_client=self._get_cognite_client())
@@ -438,6 +430,59 @@ class WriteableCogniteResourceList(
     def as_write(self) -> CogniteResourceList[T_WriteClass]:
         raise NotImplementedError
 
+    def __repr__(self) -> str:
+        return str(self)
+
+    @classmethod
+    def load(
+        cls: type[Self],
+        data: dict[str, Any]
+        | tuple[SortableProperty, Literal["asc", "desc"]]
+        | tuple[SortableProperty, Literal["asc", "desc"], Literal["auto", "first", "last"]]
+        | SortableProperty
+        | Self,
+    ) -> Self:
+        if isinstance(data, cls):
+            return data
+        elif isinstance(data, dict):
+            return cls(property=data["property"], order=data.get("order", "asc"), nulls=data.get("nulls"))
+        elif isinstance(data, tuple) and len(data) == 2 and data[1] in ["asc", "desc"]:
+            return cls(property=data[0], order=data[1])
+        elif (
+            isinstance(data, tuple)
+            and len(data) == 3
+            and data[1] in ["asc", "desc"]
+            and data[2] in ["auto", "first", "last"]
+        ):
+            return cls(
+                property=data[0],
+                order=data[1],
+                nulls=data[2],
+            )
+        elif isinstance(data, str) and (prop_order := data.split(":", 1))[-1] in ("asc", "desc"):
+            # Syntax "<fieldname>:asc|desc" is deprecated but handled for compatibility
+            return cls(property=prop_order[0], order=cast(Literal["asc", "desc"], prop_order[1]))
+        elif isinstance(data, (str, list, EnumProperty)):
+            return cls(property=data)
+        else:
+            raise ValueError(f"Unable to load {cls.__name__} from {data}")
+
+    def dump(self, camel_case: bool = True) -> dict[str, Any]:
+        prop = self.property
+        if isinstance(prop, EnumProperty):
+            prop = prop.as_reference()
+        elif isinstance(prop, str):
+            prop = [to_camel_case(prop)]
+        elif isinstance(prop, list):
+            prop = [to_camel_case(p) for p in prop]
+        else:
+            raise ValueError(f"Unable to dump {type(self).__name__} with property {prop}")
+
+        output: dict[str, str | list[str]] = {"property": prop, "order": self.order}
+        if self.nulls is not None:
+            output["nulls"] = self.nulls
+        return output
+
 
 @dataclass
 class PropertySpec:
@@ -471,7 +516,7 @@ class CogniteUpdate:
         return type(self) is type(other) and self.dump() == other.dump()
 
     def __str__(self) -> str:
-        return _json.dumps(self.dump(), indent=4)
+        return _json.dumps(self.dump(camel_case=False), indent=4)
 
     def __repr__(self) -> str:
         return str(self)
@@ -540,9 +585,6 @@ class CogniteUpdate:
     @abstractmethod
     def _get_update_properties(cls, item: CogniteResource | None = None) -> list[PropertySpec]:
         raise NotImplementedError
-
-
-T_CogniteUpdate = TypeVar("T_CogniteUpdate", bound=CogniteUpdate)
 
 
 class CognitePrimitiveUpdate(Generic[T_CogniteUpdate]):
@@ -643,9 +685,6 @@ class CogniteFilter(ABC):
             dict[str, Any]: A dictionary representation of the instance.
         """
         return basic_instance_dump(self, camel_case=camel_case)
-
-
-T_CogniteFilter = TypeVar("T_CogniteFilter", bound=CogniteFilter)
 
 
 class EnumProperty(Enum):

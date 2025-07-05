@@ -44,7 +44,7 @@ class DataModelingId(AbstractDataclass):
         return convert_all_keys_recursive(output, camel_case)
 
     @classmethod
-    def load(cls: type[T_DataModelingId], data: dict | T_DataModelingId | tuple[str, str]) -> T_DataModelingId:
+    def load(cls: type[Self], data: dict | Self | tuple[str, str]) -> Self:
         if isinstance(data, cls):
             return data
         elif isinstance(data, tuple):
@@ -52,9 +52,6 @@ class DataModelingId(AbstractDataclass):
         elif isinstance(data, dict):
             return cls(space=data["space"], external_id=data["externalId"])
         raise TypeError(f"Cannot load {data} into {cls}, invalid type={type(data)}")
-
-
-T_DataModelingId = TypeVar("T_DataModelingId", bound=DataModelingId)
 
 
 @dataclass(frozen=True)
@@ -75,9 +72,9 @@ class VersionedDataModelingId(AbstractDataclass):
 
     @classmethod
     def load(
-        cls: type[T_Versioned_DataModeling_Id],
-        data: dict | T_Versioned_DataModeling_Id | tuple[str, str] | tuple[str, str, str],
-    ) -> T_Versioned_DataModeling_Id:
+        cls: type[Self],
+        data: dict | Self | tuple[str, str] | tuple[str, str, str],
+    ) -> Self:
         if isinstance(data, cls):
             return data
         elif isinstance(data, tuple):
@@ -85,9 +82,6 @@ class VersionedDataModelingId(AbstractDataclass):
         elif isinstance(data, dict):
             return cls(space=data["space"], external_id=data["externalId"], version=data.get("version"))
         raise TypeError(f"Cannot load {data} into {cls}, invalid type={type(data)}")
-
-
-T_Versioned_DataModeling_Id = TypeVar("T_Versioned_DataModeling_Id", bound=VersionedDataModelingId)
 
 
 @dataclass(frozen=True)
