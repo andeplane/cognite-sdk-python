@@ -644,6 +644,11 @@ class AssetFilter(CogniteFilter):
         labels: LabelFilter | None = None,
         geo_location: GeoLocationFilter | None = None,
     ) -> None:
+        if labels is not None and not isinstance(labels, LabelFilter):
+            raise TypeError("AssetFilter.labels must be of type LabelFilter")
+        if geo_location is not None and not isinstance(geo_location, GeoLocationFilter):
+            raise TypeError("AssetFilter.geo_location should be of type GeoLocationFilter")
+
         self.name = name
         self.parent_ids = parent_ids
         self.parent_external_ids = parent_external_ids
@@ -657,9 +662,6 @@ class AssetFilter(CogniteFilter):
         self.external_id_prefix = external_id_prefix
         self.labels = labels
         self.geo_location = geo_location
-
-        if labels is not None and not isinstance(labels, LabelFilter):
-            raise TypeError("AssetFilter.labels must be of type LabelFilter")
 
     def dump(self, camel_case: bool = True) -> dict[str, Any]:
         result = super().dump(camel_case)

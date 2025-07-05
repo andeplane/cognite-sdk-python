@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import io
 import itertools
 import random
@@ -20,9 +22,13 @@ from cognite.client.data_classes import (
     EventList,
     FileMetadata,
     FileMetadataList,
+    AssetFilter,
+    AssetUpdate,
 )
+from cognite.client.data_classes.labels import LabelFilter
+from cognite.client.data_classes.shared import GeoLocation, GeoLocationFilter
 from cognite.client.exceptions import CogniteAssetHierarchyError
-from tests.utils import rng_context
+from tests.utils import rng_context, Labeled, LabelTest
 
 
 class TestAsset:
@@ -380,15 +386,32 @@ class TestAssetHierarchy:
             (cycles_issue_assets(), cycles_issue_output()),
         ),
     )
-    def test_validate_asset_hierarchy__arbitrart_file_obj(self, tmp_path, assets, exp_output):
+    def test_validate_asset_hierarchy__arbitrary_file_obj(self, tmp_path, assets, exp_output):
         outfile = Path(tmp_path) / "report.txt"
         with outfile.open("w", encoding="utf-8") as file:
-            AssetHierarchy(assets).validate_and_report(output_file=file)
+            AssetHierarchy(assets).validate_and_report(output_file=file)  # type: ignore[arg-type]
 
         output = outfile.read_text(encoding="utf-8")
         assert exp_output == output or output.startswith(exp_output)
 
         with io.StringIO() as file_like:
-            AssetHierarchy(assets).validate_and_report(output_file=file_like)
+            AssetHierarchy(assets).validate_and_report(output_file=file_like)  # type: ignore[arg-type]
             output = file_like.getvalue()
         assert exp_output == output or output.startswith(exp_output)
+
+
+class TestAssetFilter:
+    def test_dump(self):
+        af = AssetFilter(asset_subtree_ids=[{"externalId": "a"}])
+        assert {"assetSubtreeIds": [{"externalId": "a"}]} == af.dump(camel_case=True)
+
+    @pytest.mark.parametrize(
+        "key, value",
+        [
+            ("labels", Labeled([LabelTest("string", "s")])),
+            ("geo_location", "some string"),
+        ],
+    )
+    def test_wrong_type_in_filter(self, key, value):
+        with pytest.raises(TypeError):
+            AssetFilter(**{key: value})
