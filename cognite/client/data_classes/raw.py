@@ -248,6 +248,21 @@ class TableWriteList(CogniteResourceList[TableWrite], NameTransformerMixin):
 class TableList(WriteableCogniteResourceList[TableWrite, Table], NameTransformerMixin):
     _RESOURCE = Table
 
+    def __init__(self, resources: list[Any], cognite_client: CogniteClient | None = None) -> None:
+        super().__init__(resources, cognite_client)
+        self._name_to_item = {item.name: item for item in self.data}
+
+    def get(self, name: str) -> Table | None:
+        """Get a table by name.
+
+        Args:
+            name (str): The name of the table to get.
+
+        Returns:
+            Table | None: The requested table or None if it does not exist.
+        """
+        return self._name_to_item.get(name)
+
     def as_write(self) -> TableWriteList:
         """Returns this TableList as a TableWriteList"""
         return TableWriteList([table.as_write() for table in self.data])
@@ -331,6 +346,21 @@ class DatabaseWriteList(CogniteResourceList[DatabaseWrite], NameTransformerMixin
 
 class DatabaseList(WriteableCogniteResourceList[DatabaseWrite, Database], NameTransformerMixin):
     _RESOURCE = Database
+
+    def __init__(self, resources: list[Any], cognite_client: CogniteClient | None = None) -> None:
+        super().__init__(resources, cognite_client)
+        self._name_to_item = {item.name: item for item in self.data}
+
+    def get(self, name: str) -> Database | None:
+        """Get a database by name.
+
+        Args:
+            name (str): The name of the database to get.
+
+        Returns:
+            Database | None: The requested database or None if it does not exist.
+        """
+        return self._name_to_item.get(name)
 
     def as_write(self) -> DatabaseWriteList:
         """Returns this DatabaseList as a DatabaseWriteList"""
