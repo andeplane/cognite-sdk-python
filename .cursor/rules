@@ -1,12 +1,16 @@
 # Cursor Rules for Cognite Python SDK
 
+## General Environment & Command Usage
+- All commands should be run using Poetry, the project's dependency and environment manager. For example, use `poetry run pytest ...` to run tests.
+- For setup instructions and more details on using Poetry, see the `CONTRIBUTING.md` file in the project root.
+
 ## Testing
 
 ### Core Only Tests
 The primary test command for this project is the core only tests, which verify basic functionality with minimal dependencies:
 
 ```bash
-pytest tests/tests_unit -n8 --dist loadscope --maxfail 10 -m 'not dsl' --test-deps-only-core
+poetry run pytest tests/tests_unit -n8 --dist loadscope --maxfail 10 -m 'not dsl' --test-deps-only-core
 ```
 
 **Purpose**: These tests ensure the core SDK functionality works with only essential dependencies installed, without any optional packages or extras. This verifies the core functionality is self-contained.
@@ -21,11 +25,18 @@ pytest tests/tests_unit -n8 --dist loadscope --maxfail 10 -m 'not dsl' --test-de
 **When to use**: This is the primary test suite for development and CI. It runs faster than full tests and focuses on core functionality.
 
 ### Full Tests
-For comprehensive testing with all dependencies, use the full test suite (runs in CI on multiple Python versions and OS platforms).
+For comprehensive testing with all dependencies, use the full test suite (runs in CI on multiple Python versions and OS platforms). Use:
+
+```bash
+poetry run pytest tests/tests_integration
+```
+
+HOWEVER this requires secrets you currently don't have.
 
 ## Development Guidelines
 
 - Focus on core functionality that works with minimal dependencies
 - Use the core only tests as the primary test suite during development
+- When writing tests, look at existing tests to understand the style
 - Ensure new features don't accidentally depend on optional packages
-- Mark tests appropriately with `dsl` or `coredeps` markers as needed 
+- Mark tests appropriately with `dsl` or `coredeps` markers as needed
